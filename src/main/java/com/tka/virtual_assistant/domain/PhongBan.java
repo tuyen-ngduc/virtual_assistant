@@ -12,14 +12,13 @@ public class PhongBan {
 
     @Id
     private String maPhongBan;
-    
+
     private String tenPhongBan;
     private String ghiChu;
 
     @OneToMany(mappedBy = "phongBan")
-    private List<BoMon> boMons;
+    private List<BoMon> boMon;
 
-    // Getters and Setters
     public String getMaPhongBan() {
         return maPhongBan;
     }
@@ -44,12 +43,11 @@ public class PhongBan {
         this.ghiChu = ghiChu;
     }
 
-    public List<BoMon> getBoMons() {
-        return boMons;
+    public List<BoMon> getBoMon() {
+        return boMon;
     }
 
-    public void setBoMons(List<BoMon> boMons) {
-        this.boMons = boMons;
+    public void setBoMon(List<BoMon> boMon) {
+        this.boMon = boMon;
     }
 }
-
