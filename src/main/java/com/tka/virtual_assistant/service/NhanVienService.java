@@ -21,6 +21,7 @@ public class NhanVienService {
         return nhanVienRepository.findAll();
     }
 
+    @Transactional
     public Optional<NhanVien> findByMnv(String mnv) {
         return nhanVienRepository.findByMaNhanVien(mnv);
     }

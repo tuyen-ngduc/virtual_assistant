@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,195 +14,231 @@ import jakarta.persistence.Table;
 public class NhanVien {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID_User;
+    private Long id;
 
     private String maNhanVien;
-    private String TenNhanVien;
-    private String NgaySinh;
-    private String DienThoai;
-    private String HocVi;
+    private String tenNhanVien;
+    private String ngaySinh;
+    private String dienThoai;
+    private String hocVi;
     private String CCCD;
-    private String NgayCapCCCD;
-    private String NoiCapCCCD;
-    private String DiaChiCCCD;
-    private String DiaChiHienNay;
-    private String ChucVu;
-    private String NoiCongTac;
-    private String MaPhongBan;
-    private String MaSoThue;
-    private String SoTaiKhoan;
-    private String NganHang;
-    private String ChiNhanh;
-    private String FileLyLich;
-    private String MonGiangDayChinh;
-    private String CacMonLienQuan;
+    private String ngayCapCCCD;
+    private String noiCapCCCD;
+    private String diaChiCCCD;
+    private String diaChiHienNay;
+    private String chucVu;
+    private String noiCongTac;
+    private String maSoThue;
+    private String soTaiKhoan;
+    private String nganHang;
+    private String chiNhanh;
+    private String fileLyLich;
+    private String monGiangDayChinh;
+    private String cacMonLienQuan;
 
-    // Getters and Setters
-    public int getID_User() {
-        return ID_User;
+    @OneToOne(mappedBy = "nhanVien")
+    private Meeting meeting;
+
+    @OneToOne(mappedBy = "nhanVien")
+    private Account account;
+
+    @OneToOne(mappedBy = "nhanVien")
+    private NguoiThamGia nguoiThamGia;
+
+    @ManyToOne
+    @JoinColumn(name = "id_phongban")
+    private PhongBan phongBan;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setID_User(int ID_User) {
-        this.ID_User = ID_User;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
     }
 
     public String getMaNhanVien() {
         return maNhanVien;
     }
 
-    public void setMaNhanVien(String mnv) {
-        this.maNhanVien = mnv;
+    public void setMaNhanVien(String maNhanVien) {
+        this.maNhanVien = maNhanVien;
     }
 
     public String getTenNhanVien() {
-        return TenNhanVien;
+        return tenNhanVien;
     }
 
     public void setTenNhanVien(String tenNhanVien) {
-        this.TenNhanVien = tenNhanVien;
+        this.tenNhanVien = tenNhanVien;
     }
 
     public String getNgaySinh() {
-        return NgaySinh;
+        return ngaySinh;
     }
 
     public void setNgaySinh(String ngaySinh) {
-        this.NgaySinh = ngaySinh;
+        this.ngaySinh = ngaySinh;
     }
 
     public String getDienThoai() {
-        return DienThoai;
+        return dienThoai;
     }
 
     public void setDienThoai(String dienThoai) {
-        this.DienThoai = dienThoai;
+        this.dienThoai = dienThoai;
     }
 
     public String getHocVi() {
-        return HocVi;
+        return hocVi;
     }
 
     public void setHocVi(String hocVi) {
-        this.HocVi = hocVi;
+        this.hocVi = hocVi;
     }
 
     public String getCCCD() {
         return CCCD;
     }
 
-    public void setCCCD(String cccd) {
-        this.CCCD = cccd;
+    public void setCCCD(String cCCD) {
+        CCCD = cCCD;
     }
 
     public String getNgayCapCCCD() {
-        return NgayCapCCCD;
+        return ngayCapCCCD;
     }
 
     public void setNgayCapCCCD(String ngayCapCCCD) {
-        this.NgayCapCCCD = ngayCapCCCD;
+        this.ngayCapCCCD = ngayCapCCCD;
     }
 
     public String getNoiCapCCCD() {
-        return NoiCapCCCD;
+        return noiCapCCCD;
     }
 
     public void setNoiCapCCCD(String noiCapCCCD) {
-        this.NoiCapCCCD = noiCapCCCD;
+        this.noiCapCCCD = noiCapCCCD;
     }
 
     public String getDiaChiCCCD() {
-        return DiaChiCCCD;
+        return diaChiCCCD;
     }
 
     public void setDiaChiCCCD(String diaChiCCCD) {
-        this.DiaChiCCCD = diaChiCCCD;
+        this.diaChiCCCD = diaChiCCCD;
     }
 
     public String getDiaChiHienNay() {
-        return DiaChiHienNay;
+        return diaChiHienNay;
     }
 
     public void setDiaChiHienNay(String diaChiHienNay) {
-        this.DiaChiHienNay = diaChiHienNay;
+        this.diaChiHienNay = diaChiHienNay;
     }
 
     public String getChucVu() {
-        return ChucVu;
+        return chucVu;
     }
 
     public void setChucVu(String chucVu) {
-        this.ChucVu = chucVu;
+        this.chucVu = chucVu;
     }
 
     public String getNoiCongTac() {
-        return NoiCongTac;
+        return noiCongTac;
     }
 
     public void setNoiCongTac(String noiCongTac) {
-        this.NoiCongTac = noiCongTac;
-    }
-
-    public String getMaPhongBan() {
-        return MaPhongBan;
-    }
-
-    public void setMaPhongBan(String maPhongBan) {
-        this.MaPhongBan = maPhongBan;
+        this.noiCongTac = noiCongTac;
     }
 
     public String getMaSoThue() {
-        return MaSoThue;
+        return maSoThue;
     }
 
     public void setMaSoThue(String maSoThue) {
-        this.MaSoThue = maSoThue;
+        this.maSoThue = maSoThue;
     }
 
     public String getSoTaiKhoan() {
-        return SoTaiKhoan;
+        return soTaiKhoan;
     }
 
     public void setSoTaiKhoan(String soTaiKhoan) {
-        this.SoTaiKhoan = soTaiKhoan;
+        this.soTaiKhoan = soTaiKhoan;
     }
 
     public String getNganHang() {
-        return NganHang;
+        return nganHang;
     }
 
     public void setNganHang(String nganHang) {
-        this.NganHang = nganHang;
+        this.nganHang = nganHang;
     }
 
     public String getChiNhanh() {
-        return ChiNhanh;
+        return chiNhanh;
     }
 
     public void setChiNhanh(String chiNhanh) {
-        this.ChiNhanh = chiNhanh;
+        this.chiNhanh = chiNhanh;
     }
 
     public String getFileLyLich() {
-        return FileLyLich;
+        return fileLyLich;
     }
 
     public void setFileLyLich(String fileLyLich) {
-        this.FileLyLich = fileLyLich;
+        this.fileLyLich = fileLyLich;
     }
 
     public String getMonGiangDayChinh() {
-        return MonGiangDayChinh;
+        return monGiangDayChinh;
     }
 
     public void setMonGiangDayChinh(String monGiangDayChinh) {
-        this.MonGiangDayChinh = monGiangDayChinh;
+        this.monGiangDayChinh = monGiangDayChinh;
     }
 
     public String getCacMonLienQuan() {
-        return CacMonLienQuan;
+        return cacMonLienQuan;
     }
 
     public void setCacMonLienQuan(String cacMonLienQuan) {
-        this.CacMonLienQuan = cacMonLienQuan;
+        this.cacMonLienQuan = cacMonLienQuan;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public NguoiThamGia getNguoiThamGia() {
+        return nguoiThamGia;
+    }
+
+    public void setNguoiThamGia(NguoiThamGia nguoiThamGia) {
+        this.nguoiThamGia = nguoiThamGia;
+    }
+
+    public PhongBan getPhongBan() {
+        return phongBan;
+    }
+
+    public void setPhongBan(PhongBan phongBan) {
+        this.phongBan = phongBan;
+    }
+
 }

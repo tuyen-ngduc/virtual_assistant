@@ -6,22 +6,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "nguoithamgia")
-public class NguoiThamGia {
+public class FileTranscript {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String chucDanh;
-
-    @OneToOne
-    @JoinColumn(name = "id_nhanvien")
-    private NhanVien nhanVien;
+    private String fileName;
+    private String filePath;
 
     @ManyToOne
     @JoinColumn(name = "id_meeting")
@@ -35,19 +29,28 @@ public class NguoiThamGia {
         this.id = id;
     }
 
-    public NhanVien getNhanVien() {
-        return nhanVien;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setNhanVien(NhanVien nhanVien) {
-        this.nhanVien = nhanVien;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getChucDanh() {
-        return chucDanh;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setChucDanh(String chucDanh) {
-        this.chucDanh = chucDanh;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
+    }
+
 }

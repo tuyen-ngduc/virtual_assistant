@@ -17,10 +17,9 @@ public class BoMon {
     private String truongBoMon;
 
     @ManyToOne
-    @JoinColumn(name = "MaPhongBan", nullable = false)
+    @JoinColumn(name = "id_phongban")
     private PhongBan phongBan;
 
-    // Getters and Setters
     public String getMaBoMon() {
         return maBoMon;
     }
@@ -53,4 +52,3 @@ public class BoMon {
         this.phongBan = phongBan;
     }
 }
-

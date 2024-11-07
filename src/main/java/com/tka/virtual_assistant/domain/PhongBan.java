@@ -17,7 +17,37 @@ public class PhongBan {
     private String ghiChu;
 
     @OneToMany(mappedBy = "phongBan")
-    private List<BoMon> boMon;
+    private List<BoMon> boMonList;
+
+    @OneToMany(mappedBy = "phongBan")
+    private List<NhanVien> nhanVienList;
+
+    @OneToMany(mappedBy = "phongBan")
+    private List<Meeting> meetingList;
+
+    public List<Meeting> getMeetingList() {
+        return meetingList;
+    }
+
+    public void setMeetingList(List<Meeting> meetingList) {
+        this.meetingList = meetingList;
+    }
+
+    public List<BoMon> getBoMonList() {
+        return boMonList;
+    }
+
+    public void setBoMonList(List<BoMon> boMonList) {
+        this.boMonList = boMonList;
+    }
+
+    public List<NhanVien> getNhanVienList() {
+        return nhanVienList;
+    }
+
+    public void setNhanVienList(List<NhanVien> nhanVienList) {
+        this.nhanVienList = nhanVienList;
+    }
 
     public String getMaPhongBan() {
         return maPhongBan;
@@ -43,11 +73,4 @@ public class PhongBan {
         this.ghiChu = ghiChu;
     }
 
-    public List<BoMon> getBoMon() {
-        return boMon;
-    }
-
-    public void setBoMon(List<BoMon> boMon) {
-        this.boMon = boMon;
-    }
 }

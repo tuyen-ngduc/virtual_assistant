@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tka.virtual_assistant.domain.NhanVien;
 
-public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
+public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
+
     Optional<NhanVien> findByMaNhanVien(String mnv);
 
     void deleteByMaNhanVien(String mnv);

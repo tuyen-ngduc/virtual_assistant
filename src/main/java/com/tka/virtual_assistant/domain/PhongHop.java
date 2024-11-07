@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,16 +12,19 @@ import jakarta.persistence.Table;
 public class PhongHop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID_PhongHop;
+    private long ID_PhongHop;
     private String TenPhongHop;
     private int SucChua;
     private String GhiChu;
 
-    public int getID_PhongHop() {
+    @OneToOne(mappedBy = "phongHop")
+    private Meeting meeting;
+
+    public long getID_PhongHop() {
         return ID_PhongHop;
     }
 
-    public void setID_PhongHop(int ID_PhongHop) {
+    public void setID_PhongHop(long ID_PhongHop) {
         this.ID_PhongHop = ID_PhongHop;
     }
 

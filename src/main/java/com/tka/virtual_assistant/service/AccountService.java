@@ -1,16 +1,17 @@
 package com.tka.virtual_assistant.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tka.virtual_assistant.domain.Account;
 import com.tka.virtual_assistant.repository.AccountRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class AccountService {
+
     @Autowired
     private AccountRepository accountRepository;
 
@@ -29,4 +30,5 @@ public class AccountService {
     public void delete(long id) {
         accountRepository.deleteById(id);
     }
+
 }

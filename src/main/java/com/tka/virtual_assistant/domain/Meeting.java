@@ -1,38 +1,77 @@
 package com.tka.virtual_assistant.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Table(name = "meeting")
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID_Meeting;
-    private String ID_PhongHop;
-    private String MaGoiNho;
+    private Long id;
+
     private String TenCuocHop;
     private java.util.Date ThoiGian;
-    private String ID_Creator;
-    private String FileTranscript;
+    private String Status;
+    private String MaGoiNho;
 
-    public int getID_Meeting() {
-        return ID_Meeting;
+    @OneToMany(mappedBy = "meeting")
+    private List<FileTranscript> fileTranscript;
+
+    @OneToOne
+    @JoinColumn(name = "id_Creater")
+    private NhanVien nhanVien;
+
+    @OneToMany(mappedBy = "meeting")
+    private List<NguoiThamGia> nguoiThamGiaList;
+
+    @OneToOne
+    @JoinColumn(name = "id_phonghop")
+    private PhongHop phongHop;
+
+    @ManyToOne
+    @JoinColumn(name = "id_phongban")
+    private PhongBan phongBan;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setID_Meeting(int ID_Meeting) {
-        this.ID_Meeting = ID_Meeting;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getID_PhongHop() {
-        return ID_PhongHop;
+    public List<NguoiThamGia> getNguoiThamGiaList() {
+        return nguoiThamGiaList;
     }
 
-    public void setID_PhongHop(String ID_PhongHop) {
-        this.ID_PhongHop = ID_PhongHop;
+    public void setNguoiThamGiaList(List<NguoiThamGia> nguoiThamGiaList) {
+        this.nguoiThamGiaList = nguoiThamGiaList;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public PhongHop getPhongHop() {
+        return phongHop;
+    }
+
+    public void setPhongHop(PhongHop phongHop) {
+        this.phongHop = phongHop;
     }
 
     public String getMaGoiNho() {
@@ -59,19 +98,19 @@ public class Meeting {
         this.ThoiGian = thoiGian;
     }
 
-    public String getID_Creator() {
-        return ID_Creator;
+    public PhongBan getPhongBan() {
+        return phongBan;
     }
 
-    public void setID_Creator(String ID_Creator) {
-        this.ID_Creator = ID_Creator;
+    public void setPhongBan(PhongBan phongBan) {
+        this.phongBan = phongBan;
     }
 
-    public String getFileTranscript() {
-        return FileTranscript;
+    public NhanVien getNhanVien() {
+        return nhanVien;
     }
 
-    public void setFileTranscript(String fileTranscript) {
-        this.FileTranscript = fileTranscript;
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
     }
 }
