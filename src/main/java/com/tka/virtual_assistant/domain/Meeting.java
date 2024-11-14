@@ -11,16 +11,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.util.Date;
 
-@Entity
-@Table(name = "meeting")
+@Entity(name = "meeting")
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String TenCuocHop;
-    private java.util.Date ThoiGian;
+    private Date ThoiGian;
     private String Status;
     private String MaGoiNho;
 

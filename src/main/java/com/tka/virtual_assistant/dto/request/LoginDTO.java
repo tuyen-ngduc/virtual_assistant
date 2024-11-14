@@ -1,4 +1,4 @@
-package com.tka.virtual_assistant.dto;
+package com.tka.virtual_assistant.dto.request;
 
 public class LoginDTO {
 

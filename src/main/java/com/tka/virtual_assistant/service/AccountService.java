@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tka.virtual_assistant.domain.NhanVien;
-import com.tka.virtual_assistant.dto.LoginDTO;
-import com.tka.virtual_assistant.dto.RegisterDTO;
+import com.tka.virtual_assistant.dto.request.LoginDTO;
+import com.tka.virtual_assistant.dto.request.RegisterDTO;
 import com.tka.virtual_assistant.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.tka.virtual_assistant.domain.Account;
