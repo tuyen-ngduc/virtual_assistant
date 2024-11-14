@@ -24,8 +24,8 @@ public class Meeting {
     private String Status;
     private String MaGoiNho;
 
-    @OneToMany(mappedBy = "meeting")
-    private List<FileTranscript> fileTranscript;
+    private String fileTranscript;
+
 
     @OneToOne
     @JoinColumn(name = "id_Creater")
@@ -113,4 +113,13 @@ public class Meeting {
     public void setNhanVien(NhanVien nhanVien) {
         this.nhanVien = nhanVien;
     }
+
+    public String getFileTranscript() {
+        return fileTranscript;
+    }
+
+    public void setFileTranscript(String fileTranscript) {
+        this.fileTranscript = fileTranscript;
+    }
+
 }
