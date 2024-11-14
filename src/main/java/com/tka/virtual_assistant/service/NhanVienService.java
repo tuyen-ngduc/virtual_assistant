@@ -14,8 +14,11 @@ import java.util.Optional;
 @Service
 public class NhanVienService {
 
-    @Autowired
-    private NhanVienRepository nhanVienRepository;
+    private final NhanVienRepository nhanVienRepository;
+
+    public NhanVienService(NhanVienRepository nhanVienRepository) {
+        this.nhanVienRepository = nhanVienRepository;
+    }
 
     public List<NhanVien> findAll() {
         return nhanVienRepository.findAll();

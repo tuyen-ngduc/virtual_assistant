@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/nhanvien")
 public class NhanVienController {
-    @Autowired
-    private NhanVienService nhanVienService;
+    private final NhanVienService nhanVienService;
+
+    public NhanVienController(NhanVienService nhanVienService) {
+        this.nhanVienService = nhanVienService;
+    }
 
     @GetMapping
     public List<NhanVien> getAll() {

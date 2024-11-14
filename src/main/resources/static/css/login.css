@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Hộp đăng nhập và đăng ký */
+.login-box,
+.register-box,
+.forgot-password-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Tiêu đề */
+.login-box h1,
+.register-box h1,
+.forgot-password-box h1 {
+    font-size: 24px;
+    color: #1877f2;
+    margin-bottom: 20px;
+}
+
+.register-box p {
+    font-size: 16px;
+    color: #606770;
+    margin-bottom: 15px;
+}
+
+/* Ô nhập liệu */
+.login-box input,
+.register-box input,
+.forgot-password-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #dddfe2;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Nút Đăng nhập và Đăng ký */
+button {
+    width: 100%;
+    padding: 12px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Màu cho nút đăng nhập và tạo tài khoản */
+.login-box button {
+    background-color: #1877f2;
+}
+
+.register-box button {
+    background-color: #1877f2;
+}
+
+.forgot-password-box button {
+    background-color: #1877f2;
+}
+
+.create-account:hover {
+    background-color: #42b72a;
+}
+
+.back-to-login:hover {
+    background-color: #42b72a;
+}
+
+/* Đường kẻ ngang */
+.separator {
+    margin: 20px 0;
+    height: 1px;
+    background-color: #dddfe2;
+}
+
+/* Link quên mật khẩu */
+.forgot-password {
+    display: inline-block;
+    margin-top: 10px;
+    color: #1877f2;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
