@@ -1,5 +1,6 @@
 package com.tka.virtual_assistant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,7 @@ public class NhanVien {
 
     @OneToOne(mappedBy = "nhanVien")
     private Meeting meeting;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "nhanVien")
     private Account account;
 
