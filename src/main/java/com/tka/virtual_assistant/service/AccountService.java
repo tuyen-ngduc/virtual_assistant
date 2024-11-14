@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tka.virtual_assistant.domain.NhanVien;
+import com.tka.virtual_assistant.dto.LoginDTO;
 import com.tka.virtual_assistant.dto.RegisterDTO;
 import com.tka.virtual_assistant.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,30 +27,47 @@ public class AccountService {
         this.nhanVienRepository = nhanVienRepository;
     }
 
-    public boolean addAccount(RegisterDTO registerDTO) {
-
-        if (!registerDTO.isPasswordMatching()) {
-            throw new IllegalArgumentException("Mật khẩu và nhập lại mật khẩu không khớp!");
+    public Optional<String> addAccount(RegisterDTO registerDTO) {
+        if (accountRepository.existsByTenTaiKhoan(registerDTO.getUsername())) {
+            return Optional.of("Tên tài khoản đã tồn tại");
         }
 
         Optional<NhanVien> nhanVienOpt = nhanVienRepository.findByMaNhanVien(registerDTO.getMaNhanVien());
+        if (!nhanVienOpt.isPresent()) {
+            return Optional.of("Mã nhân viên không tồn tại");
+        }
 
-        if (nhanVienOpt.isPresent()) {
-            Account account = new Account();
-            account.setTenTaiKhoan(registerDTO.getUsername());
-            account.setPassword(registerDTO.getPassword());
-            account.setNhanVien(nhanVienOpt.get());
+        NhanVien nhanVien = nhanVienOpt.get();
+        Account account = new Account();
+        account.setTenTaiKhoan(registerDTO.getUsername());
+        account.setPassword(registerDTO.getPassword());
+        account.setNhanVien(nhanVien);
 
-            try {
-                accountRepository.save(account);
-                return true;
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()).hasBody();
-            }
-        } else {
-            return false;
+        try {
+            accountRepository.save(account);
+            return Optional.empty();
+        } catch (Exception e) {
+            return Optional.of("Lỗi khi tạo tài khoản");
         }
     }
+
+
+    public Optional<String> loginAccount(LoginDTO loginDTO) {
+
+        Optional<Account> accountOpt = accountRepository.findByTenTaiKhoan(loginDTO.getUsername());
+
+        if (accountOpt.isPresent()) {
+            Account account = accountOpt.get();
+            if (account.getPassword().equals(loginDTO.getPassword())) {
+                return Optional.empty();
+            } else {
+                return Optional.of("Mật khẩu không đúng");
+            }
+        } else {
+            return Optional.of("Tên tài khoản không tồn tại");
+        }
+    }
+
 
     public List<Account> findAll() {
         return accountRepository.findAll();

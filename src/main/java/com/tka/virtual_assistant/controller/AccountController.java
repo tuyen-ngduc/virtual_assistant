@@ -1,6 +1,7 @@
 package com.tka.virtual_assistant.controller;
 
 import com.tka.virtual_assistant.domain.NhanVien;
+import com.tka.virtual_assistant.dto.LoginDTO;
 import com.tka.virtual_assistant.dto.RegisterDTO;
 import com.tka.virtual_assistant.repository.AccountRepository;
 import com.tka.virtual_assistant.repository.NhanVienRepository;
@@ -31,17 +32,27 @@ public class AccountController {
     }
 
 
-    @PostMapping("/log/register")
+    @PostMapping("/register")
     public ResponseEntity<String> registerAccount(@RequestBody RegisterDTO registerDTO) {
-        boolean isCreated = accountService.addAccount(registerDTO);
+        Optional<String> errorMessage = accountService.addAccount(registerDTO);
 
-        if (isCreated) {
-            return ResponseEntity.ok("Đăng ký tài khoản thành công!");
+        if (errorMessage.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.get());
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã nhân viên không tồn tại!");
+            return ResponseEntity.ok("Đăng ký thành công");
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> loginAccount(@RequestBody LoginDTO loginDTO) {
+        Optional<String> errorMessage = accountService.loginAccount(loginDTO);
+
+        if (errorMessage.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.get());
+        } else {
+            return ResponseEntity.ok("Đăng nhập thành công");
+        }
+    }
 
     @GetMapping
     public List<Account> getAll() {
@@ -53,11 +64,6 @@ public class AccountController {
         return accountService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Account create(@RequestBody Account account) {
-        return accountService.save(account);
     }
 
     @DeleteMapping("/{id}")

@@ -12,11 +12,6 @@ import com.tka.virtual_assistant.service.MeetingService;
 @RestController
 @RequestMapping("/meeting")
 public class MeetingController {
-    @Autowired
-    MeetingService meetingservice;
 
-    public List<Meeting> getAll() {
-        return meetingservice.getAllMeetings();
-    }
 
 }

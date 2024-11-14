@@ -1,6 +1,7 @@
 package com.tka.virtual_assistant.dto;
 
 public class LoginDTO {
+
     private String username;
     private String password;
     public String getUsername() {
