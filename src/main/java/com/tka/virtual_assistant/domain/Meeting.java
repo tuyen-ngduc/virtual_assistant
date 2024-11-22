@@ -2,10 +2,10 @@ package com.tka.virtual_assistant.domain;
 
 import java.util.List;
 
+import com.tka.virtual_assistant.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,10 +19,19 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String TenCuocHop;
-    private Date ThoiGian;
-    private String Status;
-    private String MaGoiNho;
+    private String tenCuocHop;
+    private Date thoiGianBatDau;
+    private Date thoiGianKetThuc;
+    private Status status;
+    private String maGoiNho;
+
+    @ManyToOne
+    @JoinColumn(name = "chutich_id", nullable = false)
+    private NhanVien chuTich;
+
+    @ManyToOne
+    @JoinColumn(name = "thuky_id", nullable = false)
+    private NhanVien thuKy;
 
     private String fileTranscript;
 
@@ -58,12 +67,12 @@ public class Meeting {
         this.nguoiThamGiaList = nguoiThamGiaList;
     }
 
-    public String getStatus() {
-        return Status;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatus(String status) {
-        Status = status;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public PhongHop getPhongHop() {
@@ -74,28 +83,36 @@ public class Meeting {
         this.phongHop = phongHop;
     }
 
-    public String getMaGoiNho() {
-        return MaGoiNho;
-    }
-
-    public void setMaGoiNho(String maGoiNho) {
-        this.MaGoiNho = maGoiNho;
-    }
-
     public String getTenCuocHop() {
-        return TenCuocHop;
+        return tenCuocHop;
     }
 
     public void setTenCuocHop(String tenCuocHop) {
-        this.TenCuocHop = tenCuocHop;
+        this.tenCuocHop = tenCuocHop;
     }
 
-    public java.util.Date getThoiGian() {
-        return ThoiGian;
+    public Date getThoiGianBatDau() {
+        return thoiGianBatDau;
     }
 
-    public void setThoiGian(java.util.Date thoiGian) {
-        this.ThoiGian = thoiGian;
+    public void setThoiGianBatDau(Date thoiGianBatDau) {
+        this.thoiGianBatDau = thoiGianBatDau;
+    }
+
+    public Date getThoiGianKetThuc() {
+        return thoiGianKetThuc;
+    }
+
+    public void setThoiGianKetThuc(Date thoiGianKetThuc) {
+        this.thoiGianKetThuc = thoiGianKetThuc;
+    }
+
+    public String getMaGoiNho() {
+        return maGoiNho;
+    }
+
+    public void setMaGoiNho(String maGoiNho) {
+        this.maGoiNho = maGoiNho;
     }
 
     public PhongBan getPhongBan() {
@@ -122,4 +139,19 @@ public class Meeting {
         this.fileTranscript = fileTranscript;
     }
 
+    public NhanVien getChuTich() {
+        return chuTich;
+    }
+
+    public void setChuTich(NhanVien chuTich) {
+        this.chuTich = chuTich;
+    }
+
+    public NhanVien getThuKy() {
+        return thuKy;
+    }
+
+    public void setThuKy(NhanVien thuKy) {
+        this.thuKy = thuKy;
+    }
 }

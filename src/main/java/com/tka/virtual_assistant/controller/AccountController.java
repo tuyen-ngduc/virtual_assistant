@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import com.tka.virtual_assistant.domain.Account;
 import com.tka.virtual_assistant.service.AccountService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,16 +39,23 @@ public class AccountController {
         }
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<String> loginAccount(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<Map<String, String>> loginAccount(@RequestBody LoginDTO loginDTO) {
         Optional<String> errorMessage = accountService.loginAccount(loginDTO);
 
         if (errorMessage.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.get());
+            Map<String, String> response = new HashMap<>();
+            response.put("error", errorMessage.get());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } else {
-            return ResponseEntity.ok("Đăng nhập thành công");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Đăng nhập thành công");
+            return ResponseEntity.ok(response);
         }
     }
+
+
 
     @GetMapping
     public List<Account> getAll() {

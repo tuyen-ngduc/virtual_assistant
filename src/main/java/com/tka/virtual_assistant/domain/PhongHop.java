@@ -13,7 +13,7 @@ public class PhongHop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID_PhongHop;
-    private String TenPhongHop;
+    private String tenPhongHop;
     private int SucChua;
     private String GhiChu;
 
@@ -29,11 +29,11 @@ public class PhongHop {
     }
 
     public String getTenPhongHop() {
-        return TenPhongHop;
+        return tenPhongHop;
     }
 
     public void setTenPhongHop(String tenPhongHop) {
-        this.TenPhongHop = tenPhongHop;
+        this.tenPhongHop = tenPhongHop;
     }
 
     public int getSucChua() {
