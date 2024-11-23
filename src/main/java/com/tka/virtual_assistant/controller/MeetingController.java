@@ -3,6 +3,7 @@ package com.tka.virtual_assistant.controller;
 import java.util.List;
 
 import com.tka.virtual_assistant.dto.request.createMeetingDTO;
+import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,15 @@ public class MeetingController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
+
+    @GetMapping
+    public ResponseEntity<List<MeetingDTO>> getAllMeetings() {
+        List<MeetingDTO> meetings = meetingService.getAllMeetings();
+        if (meetings.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(meetings);
+    }
 
 
 }

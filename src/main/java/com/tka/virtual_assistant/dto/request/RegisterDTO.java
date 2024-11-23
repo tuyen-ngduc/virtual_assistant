@@ -13,20 +13,6 @@ public class RegisterDTO {
 
     private String password;
 
-    private String repeatPassword;
-
-    public boolean isPasswordMatching() {
-        return password != null && password.equals(repeatPassword);
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
 
     public String getUsername() {
         return username;

@@ -5,6 +5,7 @@ import com.tka.virtual_assistant.domain.NhanVien;
 import com.tka.virtual_assistant.domain.PhongBan;
 import com.tka.virtual_assistant.domain.PhongHop;
 import com.tka.virtual_assistant.dto.request.createMeetingDTO;
+import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import com.tka.virtual_assistant.enums.Status;
 import com.tka.virtual_assistant.repository.MeetingRepository;
 import com.tka.virtual_assistant.repository.NhanVienRepository;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -131,22 +135,65 @@ public class MeetingService {
         return "Cuộc họp đã kết thúc.";
     }
 
+    public List<MeetingDTO> getAllMeetings() {
+        // Lấy tất cả cuộc họp từ cơ sở dữ liệu
+        List<Meeting> meetings = meetingRepository.findAll();
 
-    // Tính thời gian cuộc họp (thời gian kết thúc - thời gian bắt đầu)
-    public long calculateDuration(Meeting meeting) {
-        if (meeting.getThoiGianBatDau() != null && meeting.getThoiGianKetThuc() != null) {
-            long durationInMillis = meeting.getThoiGianKetThuc().getTime() - meeting.getThoiGianBatDau().getTime();
-            Duration duration = Duration.ofMillis(durationInMillis);
+        // Chuyển đổi các cuộc họp thành MeetingDTO
+        List<MeetingDTO> meetingDTOList = meetings.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
 
-            // Trả về thời gian cuộc họp tính theo phút
-            return duration.toMinutes();
-        } else {
-            return 0; // Trả về 0 nếu thời gian không hợp lệ
+        return meetingDTOList;
+    }
+
+    // Chuyển đối tượng Meeting thành MeetingDTO
+    private MeetingDTO convertToDTO(Meeting meeting) {
+        MeetingDTO meetingDTO = new MeetingDTO();
+
+        PhongBan phongBan = meeting.getPhongBan();  // Lấy phòng ban từ Meeting
+        meetingDTO.setPhongBan(phongBan != null ? phongBan.getTenPhongBan() : "Unknown");
+
+        PhongHop phongHop = meeting.getPhongHop();
+        meetingDTO.setPhongHop(phongHop != null ? phongHop.getTenPhongHop() : "Unknown");
+
+        NhanVien thuKy = meeting.getThuKy();
+        meetingDTO.setNguoiTao(thuKy != null ? thuKy.getTenNhanVien() : "Unknown");
+
+        // Thời gian bắt đầu cuộc họp
+        Date thoiGianBatDau = meeting.getThoiGianBatDau();
+        meetingDTO.setThoiGianBatDau(thoiGianBatDau != null ? thoiGianBatDau : null);
+
+
+        meetingDTO.setTenCuocHop(meeting.getTenCuocHop());
+        meetingDTO.setStatus(meeting.getStatus().toString());
+        meetingDTO.setMaGoiNho(meeting.getMaGoiNho());
+        meetingDTO.setFileTranscript(meeting.getFileTranscript());
+
+        return meetingDTO;
+    }
+
+    //        // Tính thời gian cuộc họp
+//        long durationMinutes = calculateMeetingDuration(meeting);
+//        meetingDTO.setThoiGian(durationMinutes + " minutes");
+    // Tính thời gian cuộc họp (Tính bằng phút)
+    private long calculateMeetingDuration(Meeting meeting) {
+        if (meeting.getThoiGianKetThuc() != null && meeting.getThoiGianBatDau() != null) {
+            long duration = meeting.getThoiGianKetThuc().getTime() - meeting.getThoiGianBatDau().getTime();
+            return TimeUnit.MILLISECONDS.toMinutes(duration);
         }
+        return 0;
+    }
+
+
+
 
 
     }
 
 
-}
+
+
+
+
 
