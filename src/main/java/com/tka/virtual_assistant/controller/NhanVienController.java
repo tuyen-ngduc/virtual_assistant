@@ -1,5 +1,7 @@
 package com.tka.virtual_assistant.controller;
 
+import com.tka.virtual_assistant.dto.response.NhanVienDTO;
+import com.tka.virtual_assistant.repository.NhanVienRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tka.virtual_assistant.domain.NhanVien;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/nhanvien")
 public class NhanVienController {
     private final NhanVienService nhanVienService;
+    @Autowired
+    private NhanVienRepository nhanVienRepository;
 
     public NhanVienController(NhanVienService nhanVienService) {
         this.nhanVienService = nhanVienService;
@@ -30,6 +34,10 @@ public class NhanVienController {
         return nhanVienService.findAll();
     }
 
+    @GetMapping("/summary")
+    public ResponseEntity<List<NhanVienDTO>> getNhanVienSummary() {
+        return ResponseEntity.ok(nhanVienRepository.findAllNhanVienSummary());
+    }
     @GetMapping("/{mnv}")
     public ResponseEntity<NhanVien> getByMnv(@PathVariable String mnv) {
         return nhanVienService.findByMnv(mnv)

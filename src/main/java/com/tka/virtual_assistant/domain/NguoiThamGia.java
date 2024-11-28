@@ -23,6 +23,8 @@ public class NguoiThamGia {
     @JoinColumn(name = "id_nhanvien")
     private NhanVien nhanVien;
 
+
+
     @ManyToOne
     @JoinColumn(name = "id_meeting")
     private Meeting meeting;
@@ -49,5 +51,13 @@ public class NguoiThamGia {
 
     public void setChucDanh(String chucDanh) {
         this.chucDanh = chucDanh;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
     }
 }

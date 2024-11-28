@@ -1,11 +1,8 @@
 package com.tka.virtual_assistant.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "phonghop")
@@ -17,8 +14,8 @@ public class PhongHop {
     private int SucChua;
     private String GhiChu;
 
-    @OneToOne(mappedBy = "phongHop")
-    private Meeting meeting;
+    @OneToMany(mappedBy = "phongHop")
+    private List<Meeting> meeting;
 
     public long getID_PhongHop() {
         return ID_PhongHop;

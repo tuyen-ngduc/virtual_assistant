@@ -16,6 +16,7 @@ public class NhanVienService {
 
     private final NhanVienRepository nhanVienRepository;
 
+
     public NhanVienService(NhanVienRepository nhanVienRepository) {
         this.nhanVienRepository = nhanVienRepository;
     }

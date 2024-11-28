@@ -1,16 +1,13 @@
 package com.tka.virtual_assistant.domain;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tka.virtual_assistant.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity(name = "meeting")
@@ -20,7 +17,7 @@ public class Meeting {
     private Long id;
 
     private String tenCuocHop;
-    private Date thoiGianBatDau;
+    private LocalDateTime thoiGianBatDau;
     private Date thoiGianKetThuc;
     private Status status;
     private String maGoiNho;
@@ -35,15 +32,10 @@ public class Meeting {
 
     private String fileTranscript;
 
-
-    @OneToOne
-    @JoinColumn(name = "id_Creater")
-    private NhanVien nhanVien;
-
     @OneToMany(mappedBy = "meeting")
-    private List<NguoiThamGia> nguoiThamGiaList;
+    private List<NguoiThamGia> nguoiThamGiaList = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_phonghop")
     private PhongHop phongHop;
 
@@ -91,11 +83,11 @@ public class Meeting {
         this.tenCuocHop = tenCuocHop;
     }
 
-    public Date getThoiGianBatDau() {
+    public LocalDateTime getThoiGianBatDau() {
         return thoiGianBatDau;
     }
 
-    public void setThoiGianBatDau(Date thoiGianBatDau) {
+    public void setThoiGianBatDau(LocalDateTime thoiGianBatDau) {
         this.thoiGianBatDau = thoiGianBatDau;
     }
 
@@ -123,13 +115,6 @@ public class Meeting {
         this.phongBan = phongBan;
     }
 
-    public NhanVien getNhanVien() {
-        return nhanVien;
-    }
-
-    public void setNhanVien(NhanVien nhanVien) {
-        this.nhanVien = nhanVien;
-    }
 
     public String getFileTranscript() {
         return fileTranscript;
@@ -153,5 +138,10 @@ public class Meeting {
 
     public void setThuKy(NhanVien thuKy) {
         this.thuKy = thuKy;
+    }
+
+    public void ketThucCuocHop() {
+        this.thoiGianKetThuc = new Date();
+        this.status = Status.COMPLETED;
     }
 }

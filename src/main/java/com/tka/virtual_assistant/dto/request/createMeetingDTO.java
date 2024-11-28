@@ -1,18 +1,37 @@
 package com.tka.virtual_assistant.dto.request;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class createMeetingDTO {
     private String tenCuocHop;
-
-
-    private Date thoiGianBatDau;
+    private LocalDateTime thoiGianBatDau;
     private String tenPhongBan;
     private String tenPhongHop;
     private String maChuTich;
     private String maThuKy;
+
     private String maGoiNho;
+    private List<String> maNhanVienThamGia;
+
+
+    public List<String> getMaNhanVienThamGia() {
+        return maNhanVienThamGia;
+    }
+
+    public void setMaNhanVienThamGia(List<String> maNhanVienThamGia) {
+        this.maNhanVienThamGia = maNhanVienThamGia;
+    }
+
+    public LocalDateTime getThoiGianBatDau() {
+        return thoiGianBatDau;
+    }
+
+    public void setThoiGianBatDau(LocalDateTime thoiGianBatDau) {
+        this.thoiGianBatDau = thoiGianBatDau;
+    }
 
     public String getTenCuocHop() {
         return tenCuocHop;
@@ -30,13 +49,6 @@ public class createMeetingDTO {
         this.maGoiNho = maGoiNho;
     }
 
-    public Date getThoiGian() {
-        return thoiGianBatDau;
-    }
-
-    public void setThoiGian(Date thoiGian) {
-        this.thoiGianBatDau = thoiGian;
-    }
 
     public String getTenPhongBan() {
         return tenPhongBan;

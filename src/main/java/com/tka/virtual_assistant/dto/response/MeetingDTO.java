@@ -78,5 +78,5 @@ public class MeetingDTO {
     public void setNguoiTao(String nguoiTao) {
         this.nguoiTao = nguoiTao;
     }
-// Getters và setters
+
 }

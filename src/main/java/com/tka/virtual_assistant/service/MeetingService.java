@@ -1,199 +1,112 @@
 package com.tka.virtual_assistant.service;
 
-import com.tka.virtual_assistant.domain.Meeting;
-import com.tka.virtual_assistant.domain.NhanVien;
-import com.tka.virtual_assistant.domain.PhongBan;
-import com.tka.virtual_assistant.domain.PhongHop;
+import com.tka.virtual_assistant.domain.*;
 import com.tka.virtual_assistant.dto.request.createMeetingDTO;
-import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import com.tka.virtual_assistant.enums.Status;
-import com.tka.virtual_assistant.repository.MeetingRepository;
-import com.tka.virtual_assistant.repository.NhanVienRepository;
-import com.tka.virtual_assistant.repository.PhongBanRepository;
-import com.tka.virtual_assistant.repository.PhongHopRepository;
+import com.tka.virtual_assistant.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
+import java.util.List;
 
 @Service
 public class MeetingService {
-
     private final MeetingRepository meetingRepository;
     private final PhongBanRepository phongBanRepository;
     private final PhongHopRepository phongHopRepository;
     private final NhanVienRepository nhanVienRepository;
 
+    private final NguoiThamGiaRepository nguoiThamGiaRepository;
+
     public MeetingService(
             MeetingRepository meetingRepository,
             PhongBanRepository phongBanRepository,
             PhongHopRepository phongHopRepository,
-            NhanVienRepository nhanVienRepository) {
+            NhanVienRepository nhanVienRepository,
+            NguoiThamGiaRepository nguoiThamGiaRepository) {
         this.meetingRepository = meetingRepository;
         this.phongBanRepository = phongBanRepository;
         this.phongHopRepository = phongHopRepository;
         this.nhanVienRepository = nhanVienRepository;
-    }
-
-    public String createMeeting(createMeetingDTO createMeetingDTO) {
-        // Kiểm tra phòng ban
-        Optional<PhongBan> phongBanOptional = phongBanRepository.findByTenPhongBan(createMeetingDTO.getTenPhongBan());
-        if (phongBanOptional.isEmpty()) {
-            return "Phòng ban không tồn tại: " + createMeetingDTO.getTenPhongBan();
-        }
-
-        // Kiểm tra phòng họp
-        Optional<PhongHop> phongHopOptional = phongHopRepository.findByTenPhongHop(createMeetingDTO.getTenPhongHop());
-        if (phongHopOptional.isEmpty()) {
-            return "Phòng họp không tồn tại: " + createMeetingDTO.getTenPhongHop();
-        }
-
-        // Kiểm tra Chủ tịch
-        Optional<NhanVien> chuTichOptional = nhanVienRepository.findByMaNhanVien(createMeetingDTO.getMaChuTich());
-        if (chuTichOptional.isEmpty()) {
-            return "Mã Chủ tịch không tồn tại: " + createMeetingDTO.getMaChuTich();
-        }
-
-        // Kiểm tra Thư ký
-        Optional<NhanVien> thuKyOptional = nhanVienRepository.findByMaNhanVien(createMeetingDTO.getMaThuKy());
-        if (thuKyOptional.isEmpty()) {
-            return "Mã Thư ký không tồn tại: " + createMeetingDTO.getMaThuKy();
-        }
-
-
-        Meeting meeting = new Meeting();
-        meeting.setTenCuocHop(createMeetingDTO.getTenCuocHop());
-        meeting.setMaGoiNho(createMeetingDTO.getMaGoiNho());
-        meeting.setThoiGianBatDau(createMeetingDTO.getThoiGian());
-        meeting.setPhongBan(phongBanOptional.get());
-        meeting.setPhongHop(phongHopOptional.get());
-        meeting.setChuTich(chuTichOptional.get());
-        meeting.setThuKy(thuKyOptional.get());
-        meeting.setStatus(Status.UPCOMING);
-        meetingRepository.save(meeting);
-
-        return "Cuộc họp được tạo thành công";
-    }
-
-    public String startMeeting(Long meetingId) {
-        Optional<Meeting> meetingOptional = meetingRepository.findById(meetingId);
-
-        if (!meetingOptional.isPresent()) {
-            return "Không tìm thấy cuộc họp.";
-        }
-
-        Meeting meeting = meetingOptional.get();
-
-        // Kiểm tra trạng thái và thời gian hợp lệ
-        Date currentTime = new Date();
-        if (meeting.getStatus() != Status.UPCOMING) {
-            return "Cuộc họp không ở trạng thái sẵn sàng để bắt đầu.";
-        }
-
-        if (meeting.getThoiGianBatDau().after(currentTime)) {
-            return "Chưa đến thời gian bắt đầu cuộc họp.";
-        }
-
-        // Cập nhật trạng thái và thời gian bắt đầu
-        meeting.setThoiGianBatDau(meeting.getThoiGianBatDau());
-        meeting.setStatus(Status.ONGOING); // Cập nhật trạng thái
-        meetingRepository.save(meeting);
-
-        return "Cuộc họp đã bắt đầu.";
-    }
-
-    public String endMeeting(Long meetingId, Long userId) {
-        Optional<Meeting> meetingOptional = meetingRepository.findById(meetingId);
-
-        if (!meetingOptional.isPresent()) {
-            return "Không tìm thấy cuộc họp.";
-        }
-
-        Meeting meeting = meetingOptional.get();
-
-        // Kiểm tra trạng thái cuộc họp
-        if (meeting.getStatus() != Status.ONGOING) {
-            return "Cuộc họp không thể kết thúc vì không đang diễn ra.";
-        }
-
-        // Kiểm tra nếu người yêu cầu kết thúc cuộc họp có phải là thư ký không
-        if (!meeting.getThuKy().getId().equals(userId)) {
-            return "Chỉ thư ký mới có thể kết thúc cuộc họp.";
-        }
-
-        // Cập nhật thời gian kết thúc và trạng thái cuộc họp
-        Date currentTime = new Date();
-        meeting.setThoiGianKetThuc(currentTime); // Cập nhật thời gian kết thúc
-        meeting.setStatus(Status.COMPLETED); // Cập nhật trạng thái thành đã kết thúc
-        meetingRepository.save(meeting); // Lưu lại thay đổi
-
-        return "Cuộc họp đã kết thúc.";
-    }
-
-    public List<MeetingDTO> getAllMeetings() {
-        // Lấy tất cả cuộc họp từ cơ sở dữ liệu
-        List<Meeting> meetings = meetingRepository.findAll();
-
-        // Chuyển đổi các cuộc họp thành MeetingDTO
-        List<MeetingDTO> meetingDTOList = meetings.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-
-        return meetingDTOList;
-    }
-
-    // Chuyển đối tượng Meeting thành MeetingDTO
-    private MeetingDTO convertToDTO(Meeting meeting) {
-        MeetingDTO meetingDTO = new MeetingDTO();
-
-        PhongBan phongBan = meeting.getPhongBan();  // Lấy phòng ban từ Meeting
-        meetingDTO.setPhongBan(phongBan != null ? phongBan.getTenPhongBan() : "Unknown");
-
-        PhongHop phongHop = meeting.getPhongHop();
-        meetingDTO.setPhongHop(phongHop != null ? phongHop.getTenPhongHop() : "Unknown");
-
-        NhanVien thuKy = meeting.getThuKy();
-        meetingDTO.setNguoiTao(thuKy != null ? thuKy.getTenNhanVien() : "Unknown");
-
-        // Thời gian bắt đầu cuộc họp
-        Date thoiGianBatDau = meeting.getThoiGianBatDau();
-        meetingDTO.setThoiGianBatDau(thoiGianBatDau != null ? thoiGianBatDau : null);
-
-
-        meetingDTO.setTenCuocHop(meeting.getTenCuocHop());
-        meetingDTO.setStatus(meeting.getStatus().toString());
-        meetingDTO.setMaGoiNho(meeting.getMaGoiNho());
-        meetingDTO.setFileTranscript(meeting.getFileTranscript());
-
-        return meetingDTO;
-    }
-
-    //        // Tính thời gian cuộc họp
-//        long durationMinutes = calculateMeetingDuration(meeting);
-//        meetingDTO.setThoiGian(durationMinutes + " minutes");
-    // Tính thời gian cuộc họp (Tính bằng phút)
-    private long calculateMeetingDuration(Meeting meeting) {
-        if (meeting.getThoiGianKetThuc() != null && meeting.getThoiGianBatDau() != null) {
-            long duration = meeting.getThoiGianKetThuc().getTime() - meeting.getThoiGianBatDau().getTime();
-            return TimeUnit.MILLISECONDS.toMinutes(duration);
-        }
-        return 0;
+        this.nguoiThamGiaRepository = nguoiThamGiaRepository;
     }
 
 
+        public String createMeeting(createMeetingDTO createMeetingDTO) {
+            // Kiểm tra phòng ban
+            PhongBan phongBan = phongBanRepository.findByTenPhongBan(createMeetingDTO.getTenPhongBan())
+                    .orElseThrow(() -> new RuntimeException("Phòng ban không tồn tại: " + createMeetingDTO.getTenPhongBan()));
 
+            // Kiểm tra phòng họp
+            PhongHop phongHop = phongHopRepository.findByTenPhongHop(createMeetingDTO.getTenPhongHop())
+                    .orElseThrow(() -> new RuntimeException("Phòng họp không tồn tại: " + createMeetingDTO.getTenPhongHop()));
 
+            // Kiểm tra Chủ tịch
+            NhanVien chuTich = nhanVienRepository.findByMaNhanVien(createMeetingDTO.getMaChuTich())
+                    .orElseThrow(() -> new RuntimeException("Mã Chủ tịch không tồn tại: " + createMeetingDTO.getMaChuTich()));
 
+            // Kiểm tra Thư ký
+            NhanVien thuKy = nhanVienRepository.findByMaNhanVien(createMeetingDTO.getMaThuKy())
+                    .orElseThrow(() -> new RuntimeException("Mã Thư ký không tồn tại: " + createMeetingDTO.getMaThuKy()));
+
+            // Thời gian bắt đầu và kết thúc của cuộc họp
+            LocalDateTime thoiGianBatDau = createMeetingDTO.getThoiGianBatDau();
+            LocalDateTime thoiGianKetThuc = thoiGianBatDau.plusHours(2); // 2 tiếng sau khi bắt đầu
+
+            // Kiểm tra thời gian phòng họp
+            List<Meeting> existingMeetingsInRoom = meetingRepository.findMeetingsByPhongHopAndTime(
+                    phongHop.getID_PhongHop(), thoiGianBatDau, thoiGianKetThuc
+            );
+            if (!existingMeetingsInRoom.isEmpty()) {
+                return "Phòng họp đã được sử dụng trong khoảng thời gian này.";
+            }
+
+            // Kiểm tra thời gian của các nhân viên tham gia
+            List<String> maNhanVienThamGia = createMeetingDTO.getMaNhanVienThamGia();
+            for (String maNhanVien : maNhanVienThamGia) {
+                NhanVien nhanVien = nhanVienRepository.findByMaNhanVien(maNhanVien)
+                        .orElseThrow(() -> new RuntimeException("Không tìm thấy nhân viên với mã: " + maNhanVien));
+
+                // Kiểm tra xem nhân viên đã tham gia cuộc họp khác không
+                List<NguoiThamGia> existingParticipations = nguoiThamGiaRepository.findByNhanVienAndTime(
+                        nhanVien.getId(), thoiGianBatDau, thoiGianKetThuc
+                );
+                if (!existingParticipations.isEmpty()) {
+                    return "Nhân viên " + maNhanVien + " đã tham gia cuộc họp khác trong khoảng thời gian này.";
+                }
+            }
+
+            // Tạo mới cuộc họp
+            Meeting meeting = new Meeting();
+            meeting.setTenCuocHop(createMeetingDTO.getTenCuocHop());
+            meeting.setMaGoiNho(createMeetingDTO.getMaGoiNho());
+            meeting.setThoiGianBatDau(createMeetingDTO.getThoiGianBatDau());
+            meeting.setPhongBan(phongBan);
+            meeting.setPhongHop(phongHop);
+            meeting.setChuTich(chuTich);
+            meeting.setThuKy(thuKy);
+            meeting.setStatus(Status.UPCOMING);
+
+            // Lưu cuộc họp vào cơ sở dữ liệu
+            meetingRepository.save(meeting);
+
+            // Thêm nhân viên tham gia vào cuộc họp
+            for (String maNhanVien : maNhanVienThamGia) {
+                NhanVien nhanVien = nhanVienRepository.findByMaNhanVien(maNhanVien)
+                        .orElseThrow(() -> new RuntimeException("Không tìm thấy nhân viên với mã: " + maNhanVien));
+
+                NguoiThamGia nguoiThamGia = new NguoiThamGia();
+                nguoiThamGia.setNhanVien(nhanVien);
+                nguoiThamGia.setMeeting(meeting);
+                nguoiThamGia.setChucDanh("Thành viên");
+
+                nguoiThamGiaRepository.save(nguoiThamGia);
+            }
+
+            return "Cuộc họp được tạo thành công.";
+        }
     }
-
-
-
-
 
 
 

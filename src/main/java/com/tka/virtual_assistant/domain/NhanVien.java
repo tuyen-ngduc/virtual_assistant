@@ -37,15 +37,13 @@ public class NhanVien {
     private String monGiangDayChinh;
     private String cacMonLienQuan;
 
-    @OneToOne(mappedBy = "nhanVien")
-    private Meeting meeting;
     @JsonIgnore
     @OneToOne(mappedBy = "nhanVien")
     private Account account;
 
     @OneToOne(mappedBy = "nhanVien")
     private NguoiThamGia nguoiThamGia;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_phongban")
     private PhongBan phongBan;
@@ -58,13 +56,6 @@ public class NhanVien {
         this.id = id;
     }
 
-    public Meeting getMeeting() {
-        return meeting;
-    }
-
-    public void setMeeting(Meeting meeting) {
-        this.meeting = meeting;
-    }
 
     public String getMaNhanVien() {
         return maNhanVien;
