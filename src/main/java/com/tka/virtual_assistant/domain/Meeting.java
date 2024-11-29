@@ -18,7 +18,7 @@ public class Meeting {
 
     private String tenCuocHop;
     private LocalDateTime thoiGianBatDau;
-    private Date thoiGianKetThuc;
+    private LocalDateTime thoiGianKetThuc;
     private Status status;
     private String maGoiNho;
 
@@ -91,11 +91,11 @@ public class Meeting {
         this.thoiGianBatDau = thoiGianBatDau;
     }
 
-    public Date getThoiGianKetThuc() {
+    public LocalDateTime getThoiGianKetThuc() {
         return thoiGianKetThuc;
     }
 
-    public void setThoiGianKetThuc(Date thoiGianKetThuc) {
+    public void setThoiGianKetThuc(LocalDateTime thoiGianKetThuc) {
         this.thoiGianKetThuc = thoiGianKetThuc;
     }
 
@@ -140,8 +140,5 @@ public class Meeting {
         this.thuKy = thuKy;
     }
 
-    public void ketThucCuocHop() {
-        this.thoiGianKetThuc = new Date();
-        this.status = Status.COMPLETED;
-    }
+
 }

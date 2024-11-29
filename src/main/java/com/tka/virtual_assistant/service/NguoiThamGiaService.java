@@ -12,10 +12,13 @@ import java.util.Optional;
 @Service
 public class NguoiThamGiaService {
 
-    @Autowired
-    private NguoiThamGiaRepository nguoiThamGiaRepository;
+    private final NguoiThamGiaRepository nguoiThamGiaRepository;
 
-    
+    public NguoiThamGiaService(NguoiThamGiaRepository nguoiThamGiaRepository) {
+        this.nguoiThamGiaRepository = nguoiThamGiaRepository;
+    }
+
+
     public List<NguoiThamGia> getAllParticipantsByMeeting(Meeting meeting) {
         return nguoiThamGiaRepository.findByMeeting(meeting);
     }

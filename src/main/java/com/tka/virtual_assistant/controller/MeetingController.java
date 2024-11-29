@@ -32,6 +32,12 @@ public class MeetingController {
         }
     }
 
+
+    @GetMapping
+    public ResponseEntity<List<MeetingDTO>> getAllMeetings() {
+        List<MeetingDTO> meetings = meetingService.getAllMeetings();
+        return ResponseEntity.ok(meetings);
+    }
 //    @PutMapping("/start/{id}")
 //    public ResponseEntity<String> startMeeting(@PathVariable Long id) {
 //        String message = meetingService.startMeeting(id);

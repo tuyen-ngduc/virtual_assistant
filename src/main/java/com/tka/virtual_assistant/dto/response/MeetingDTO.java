@@ -3,11 +3,12 @@ package com.tka.virtual_assistant.dto.response;
 import com.tka.virtual_assistant.domain.Meeting;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MeetingDTO {
     private String tenCuocHop;
-    private Date thoiGianBatDau;
+    private LocalDateTime thoiGianBatDau;
     private String phongBan;
     private String phongHop;
     private String status;
@@ -23,12 +24,12 @@ public class MeetingDTO {
         this.tenCuocHop = tenCuocHop;
     }
 
-    public Date getThoiGianBatDau() {
+    public LocalDateTime getThoiGianBatDau() {
         return thoiGianBatDau;
     }
 
-    public void setThoiGianBatDau(Date thoiGian) {
-        this.thoiGianBatDau = thoiGian;
+    public void setThoiGianBatDau(LocalDateTime thoiGianBatDau) {
+        this.thoiGianBatDau = thoiGianBatDau;
     }
 
     public String getPhongBan() {

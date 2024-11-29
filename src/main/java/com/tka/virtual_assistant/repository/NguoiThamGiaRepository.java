@@ -15,16 +15,21 @@ import java.util.Optional;
 
 public interface NguoiThamGiaRepository extends JpaRepository<NguoiThamGia, Long> {
     List<NguoiThamGia> findByMeeting(Meeting meeting);
+
     List<NguoiThamGia> findByNhanVien(NhanVien nhanvien);
-    Optional<NguoiThamGia> findByMeetingIdAndNhanVienId(long meetingId,long nhanVienId);
+
+    Optional<NguoiThamGia> findByMeetingIdAndNhanVienId(long meetingId, long nhanVienId);
 
     List<NguoiThamGia> findByNhanVienId(Long nhanVienId);
+
     @Query("SELECT nt FROM NguoiThamGia nt WHERE nt.nhanVien.id = :nhanVienId AND " +
             "((:startTime BETWEEN nt.meeting.thoiGianBatDau AND nt.meeting.thoiGianKetThuc) OR " +
             "(:endTime BETWEEN nt.meeting.thoiGianBatDau AND nt.meeting.thoiGianKetThuc) OR " +
             "(nt.meeting.thoiGianBatDau BETWEEN :startTime AND :endTime))")
-    List<NguoiThamGia> findByNhanVienAndTime(@Param("nhanVienId") Long nhanVienId,
-                                             @Param("startTime") LocalDateTime startTime,
-                                             @Param("endTime") LocalDateTime endTime);
+    List<NguoiThamGia> findByNhanVienAndTime(
+            @Param("nhanVienId") Long nhanVienId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime
+    );
 
 }
