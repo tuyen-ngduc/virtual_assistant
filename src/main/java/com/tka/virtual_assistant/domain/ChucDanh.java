@@ -13,8 +13,6 @@ public class ChucDanh {
     @Column
     private String description;
 
-
-
     public Long getId() {
         return Id;
     }

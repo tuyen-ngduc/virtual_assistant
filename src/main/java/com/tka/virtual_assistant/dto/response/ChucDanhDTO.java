@@ -1,13 +1,19 @@
 package com.tka.virtual_assistant.dto.response;
 
 public class ChucDanhDTO {
-    private String chucDanh;
+    private String tenChucDanh;
 
-    public String getChucDanh() {
-        return chucDanh;
+    // Constructor
+    public ChucDanhDTO(String tenChucDanh) {
+        this.tenChucDanh = tenChucDanh;
     }
 
-    public void setChucDanh(String chucDanh) {
-        this.chucDanh = chucDanh;
+    // Getter and Setter
+    public String getTenChucDanh() {
+        return tenChucDanh;
+    }
+
+    public void setTenChucDanh(String tenChucDanh) {
+        this.tenChucDanh = tenChucDanh;
     }
 }

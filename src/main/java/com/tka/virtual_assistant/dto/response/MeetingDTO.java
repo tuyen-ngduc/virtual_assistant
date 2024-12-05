@@ -7,14 +7,15 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MeetingDTO {
+    private Long maCuocHop;
     private String tenCuocHop;
     private LocalDateTime thoiGianBatDau;
     private String phongBan;
     private String phongHop;
     private String status;
     private String maGoiNho;
-    private String fileTranscript;
-    private String nguoiTao;
+//    private String fileTranscript;
+//    private String nguoiTao;
 
     public String getTenCuocHop() {
         return tenCuocHop;
@@ -26,6 +27,14 @@ public class MeetingDTO {
 
     public LocalDateTime getThoiGianBatDau() {
         return thoiGianBatDau;
+    }
+
+    public Long getMaCuocHop() {
+        return maCuocHop;
+    }
+
+    public void setMaCuocHop(Long maCuocHop) {
+        this.maCuocHop = maCuocHop;
     }
 
     public void setThoiGianBatDau(LocalDateTime thoiGianBatDau) {
@@ -64,20 +73,8 @@ public class MeetingDTO {
         this.maGoiNho = maGoiNho;
     }
 
-    public String getFileTranscript() {
-        return fileTranscript;
-    }
 
-    public void setFileTranscript(String fileTranscript) {
-        this.fileTranscript = fileTranscript;
-    }
 
-    public String getNguoiTao() {
-        return nguoiTao;
-    }
 
-    public void setNguoiTao(String nguoiTao) {
-        this.nguoiTao = nguoiTao;
-    }
 
 }

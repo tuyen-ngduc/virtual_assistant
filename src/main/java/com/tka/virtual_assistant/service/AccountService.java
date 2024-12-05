@@ -3,6 +3,7 @@ package com.tka.virtual_assistant.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.tka.virtual_assistant.config.JwtUtil;
 import com.tka.virtual_assistant.domain.NhanVien;
 import com.tka.virtual_assistant.dto.request.LoginDTO;
 import com.tka.virtual_assistant.dto.request.RegisterDTO;
@@ -16,13 +17,15 @@ import com.tka.virtual_assistant.repository.AccountRepository;
 @Service
 public class AccountService {
 
+    private final JwtUtil jwtUtil;
     private final AccountRepository accountRepository;
     private final NhanVienRepository nhanVienRepository;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, NhanVienRepository nhanVienRepository) {
+    public AccountService(AccountRepository accountRepository, NhanVienRepository nhanVienRepository, JwtUtil jwtUtil) {
         this.accountRepository = accountRepository;
         this.nhanVienRepository = nhanVienRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public Optional<String> addAccount(RegisterDTO registerDTO) {
@@ -50,14 +53,16 @@ public class AccountService {
     }
 
 
-    public Optional<String> loginAccount(LoginDTO loginDTO) {
 
+    public Optional<String> loginAccount(LoginDTO loginDTO) {
         Optional<Account> accountOpt = accountRepository.findByTenTaiKhoan(loginDTO.getUsername());
 
         if (accountOpt.isPresent()) {
             Account account = accountOpt.get();
             if (account.getPassword().equals(loginDTO.getPassword())) {
-                return Optional.empty();
+                // Tạo token
+                String token = jwtUtil.generateToken(account.getTenTaiKhoan());
+                return Optional.of(token);
             } else {
                 return Optional.of("Mật khẩu không đúng");
             }
