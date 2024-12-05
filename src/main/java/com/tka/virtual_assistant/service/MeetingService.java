@@ -163,7 +163,6 @@ public class MeetingService {
 //
 //            return "Cuộc họp được tạo thành công.";
 //        }
-
     @Transactional(rollbackFor = RuntimeException.class)
     public String createMeeting(CreateMeetingDTO createMeetingDTO) {
 
@@ -264,6 +263,9 @@ public class MeetingService {
         return transcriptFilePath.toString();
     }
 
+    public void hello() {
+
+    }
 }
 
 
