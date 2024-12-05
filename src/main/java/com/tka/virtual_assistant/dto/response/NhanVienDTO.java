@@ -9,7 +9,6 @@ public class NhanVienDTO {
     public NhanVienDTO(String maNhanVien, String tenNhanVien, String maPhongBan) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
-        this.maPhongBan = maPhongBan;
     }
 
     // Getter & Setter
@@ -29,11 +28,5 @@ public class NhanVienDTO {
         this.tenNhanVien = tenNhanVien;
     }
 
-    public String getMaPhongBan() {
-        return maPhongBan;
-    }
 
-    public void setMaPhongBan(String maPhongBan) {
-        this.maPhongBan = maPhongBan;
-    }
 }

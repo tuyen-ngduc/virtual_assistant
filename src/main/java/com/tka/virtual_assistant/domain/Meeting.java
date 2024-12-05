@@ -22,14 +22,6 @@ public class Meeting {
     private Status status;
     private String maGoiNho;
 
-    @ManyToOne
-    @JoinColumn(name = "chutich_id", nullable = false)
-    private NhanVien chuTich;
-
-    @ManyToOne
-    @JoinColumn(name = "thuky_id", nullable = false)
-    private NhanVien thuKy;
-
     private String fileTranscript;
 
     @OneToMany(mappedBy = "meeting")
@@ -124,21 +116,6 @@ public class Meeting {
         this.fileTranscript = fileTranscript;
     }
 
-    public NhanVien getChuTich() {
-        return chuTich;
-    }
-
-    public void setChuTich(NhanVien chuTich) {
-        this.chuTich = chuTich;
-    }
-
-    public NhanVien getThuKy() {
-        return thuKy;
-    }
-
-    public void setThuKy(NhanVien thuKy) {
-        this.thuKy = thuKy;
-    }
 
 
 }

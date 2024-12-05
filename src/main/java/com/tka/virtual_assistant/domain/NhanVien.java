@@ -1,14 +1,9 @@
 package com.tka.virtual_assistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "nhanvien")
@@ -40,9 +35,9 @@ public class NhanVien {
     @JsonIgnore
     @OneToOne(mappedBy = "nhanVien")
     private Account account;
-
-    @OneToOne(mappedBy = "nhanVien")
-    private NguoiThamGia nguoiThamGia;
+    @JsonIgnore
+    @OneToMany(mappedBy = "nhanVien")
+    private List<NguoiThamGia> nguoiThamGia;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_phongban")
@@ -217,11 +212,11 @@ public class NhanVien {
         this.account = account;
     }
 
-    public NguoiThamGia getNguoiThamGia() {
+    public List<NguoiThamGia> getNguoiThamGia() {
         return nguoiThamGia;
     }
 
-    public void setNguoiThamGia(NguoiThamGia nguoiThamGia) {
+    public void setNguoiThamGia(List<NguoiThamGia> nguoiThamGia) {
         this.nguoiThamGia = nguoiThamGia;
     }
 

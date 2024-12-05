@@ -16,7 +16,7 @@ import com.tka.virtual_assistant.domain.PhongBan;
 import com.tka.virtual_assistant.service.PhongBanService;
 
 @RestController
-@RequestMapping("/api/phongban")
+@RequestMapping("/phongban")
 public class PhongBanController {
     @Autowired
     PhongBanService phongBanService;

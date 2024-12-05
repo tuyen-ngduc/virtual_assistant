@@ -1,40 +1,41 @@
 package com.tka.virtual_assistant.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "nguoithamgia")
 public class NguoiThamGia {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    private String chucDanh;
-
-    @OneToOne
-    @JoinColumn(name = "id_nhanvien")
-    private NhanVien nhanVien;
-
-
+    @EmbeddedId
+    private NguoiThamGiaId id; // Khóa chính composite
 
     @ManyToOne
-    @JoinColumn(name = "id_meeting")
+    @JoinColumn(name = "id_chucdanh", insertable = false, updatable = false)
+    private ChucDanh chucDanh;
+
+    @ManyToOne
+    @JoinColumn(name = "id_nhanvien", insertable = false, updatable = false)
+    private NhanVien nhanVien;
+
+    @ManyToOne
+    @JoinColumn(name = "id_meeting", insertable = false, updatable = false)
     private Meeting meeting;
 
-    public long getId() {
+    // Getters and Setters
+
+    public NguoiThamGiaId getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(NguoiThamGiaId id) {
         this.id = id;
+    }
+
+    public ChucDanh getChucDanh() {
+        return chucDanh;
+    }
+
+    public void setChucDanh(ChucDanh chucDanh) {
+        this.chucDanh = chucDanh;
     }
 
     public NhanVien getNhanVien() {
@@ -43,14 +44,6 @@ public class NguoiThamGia {
 
     public void setNhanVien(NhanVien nhanVien) {
         this.nhanVien = nhanVien;
-    }
-
-    public String getChucDanh() {
-        return chucDanh;
-    }
-
-    public void setChucDanh(String chucDanh) {
-        this.chucDanh = chucDanh;
     }
 
     public Meeting getMeeting() {

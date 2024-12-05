@@ -2,26 +2,24 @@ package com.tka.virtual_assistant.dto.request;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-public class createMeetingDTO {
+public class CreateMeetingDTO {
     private String tenCuocHop;
     private LocalDateTime thoiGianBatDau;
     private String tenPhongBan;
     private String tenPhongHop;
-    private String maChuTich;
-    private String maThuKy;
 
     private String maGoiNho;
-    private List<String> maNhanVienThamGia;
+    private List<NguoiThamGiaDTO> maNhanVienThamGia;
 
 
-    public List<String> getMaNhanVienThamGia() {
+    public List<NguoiThamGiaDTO> getMaNhanVienThamGia() {
         return maNhanVienThamGia;
     }
 
-    public void setMaNhanVienThamGia(List<String> maNhanVienThamGia) {
+    public void setMaNhanVienThamGia(List<NguoiThamGiaDTO> maNhanVienThamGia) {
         this.maNhanVienThamGia = maNhanVienThamGia;
     }
 
@@ -66,21 +64,7 @@ public class createMeetingDTO {
         this.tenPhongHop = tenPhongHop;
     }
 
-    public String getMaChuTich() {
-        return maChuTich;
-    }
 
-    public void setMaChuTich(String maChuTich) {
-        this.maChuTich = maChuTich;
-    }
-
-    public String getMaThuKy() {
-        return maThuKy;
-    }
-
-    public void setMaThuKy(String maThuKy) {
-        this.maThuKy = maThuKy;
-    }
 
 
 }

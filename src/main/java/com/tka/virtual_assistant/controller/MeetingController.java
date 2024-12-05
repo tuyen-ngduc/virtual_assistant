@@ -2,14 +2,12 @@ package com.tka.virtual_assistant.controller;
 
 import java.util.List;
 
-import com.tka.virtual_assistant.dto.request.createMeetingDTO;
+import com.tka.virtual_assistant.dto.request.CreateMeetingDTO;
 import com.tka.virtual_assistant.dto.response.MeetingDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tka.virtual_assistant.domain.Meeting;
 import com.tka.virtual_assistant.service.MeetingService;
 
 @RestController
@@ -23,7 +21,7 @@ public class MeetingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createMeeting(@RequestBody createMeetingDTO createMeetingDTO) {
+    public ResponseEntity<String> createMeeting(@RequestBody CreateMeetingDTO createMeetingDTO) {
         try {
             String result = meetingService.createMeeting(createMeetingDTO);
             return ResponseEntity.ok(result);
