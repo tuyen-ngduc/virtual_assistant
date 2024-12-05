@@ -263,9 +263,6 @@ public class MeetingService {
         return transcriptFilePath.toString();
     }
 
-    public void hello() {
-
-    }
 }
 
 

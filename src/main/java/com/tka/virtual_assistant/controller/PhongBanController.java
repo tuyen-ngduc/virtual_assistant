@@ -2,6 +2,7 @@ package com.tka.virtual_assistant.controller;
 
 import java.util.List;
 
+import com.tka.virtual_assistant.dto.response.PhongBanDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +19,12 @@ import com.tka.virtual_assistant.service.PhongBanService;
 @RestController
 @RequestMapping("/phongban")
 public class PhongBanController {
-    @Autowired
+    final
     PhongBanService phongBanService;
+
+    public PhongBanController(PhongBanService phongBanService) {
+        this.phongBanService = phongBanService;
+    }
 
     @GetMapping
     public List<PhongBan> getAll() {
@@ -31,6 +36,10 @@ public class PhongBanController {
         return phongBanService.findByMpb(mpb)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/list")
+    public List<PhongBanDTO> getDanhSachPhongBan() {
+        return phongBanService.getDanhSachPhongBan();
     }
 
     @PostMapping

@@ -3,7 +3,7 @@ package com.tka.virtual_assistant.dto.response;
 public class NhanVienDTO {
     private String maNhanVien;
     private String tenNhanVien;
-    private String maPhongBan;
+
 
     // Constructor
     public NhanVienDTO(String maNhanVien, String tenNhanVien, String maPhongBan) {
