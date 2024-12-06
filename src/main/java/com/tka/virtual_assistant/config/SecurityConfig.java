@@ -1,6 +1,7 @@
 
 package com.tka.virtual_assistant.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,18 @@ public class SecurityConfig {
                         -> auth .requestMatchers("/**").permitAll());
 
         return http.build();
+    }
+
+    @Bean
+    public JwtTokenFilter jwtTokenFilter() {
+        return new JwtTokenFilter(jwtUtil());
+    }
+
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil(secretKey);
     }
 
 }

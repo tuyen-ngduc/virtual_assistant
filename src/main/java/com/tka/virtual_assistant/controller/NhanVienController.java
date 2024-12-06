@@ -2,7 +2,8 @@ package com.tka.virtual_assistant.controller;
 
 import com.tka.virtual_assistant.dto.response.NhanVienDTO;
 import com.tka.virtual_assistant.repository.NhanVienRepository;
-import org.springframework.web.bind.annotation.RestController;
+import com.tka.virtual_assistant.service.AccountService;
+import org.springframework.web.bind.annotation.*;
 
 import com.tka.virtual_assistant.domain.NhanVien;
 import com.tka.virtual_assistant.service.NhanVienService;
@@ -11,23 +12,30 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/nhanvien")
 public class NhanVienController {
     private final NhanVienService nhanVienService;
+
+
+    private final AccountService accountService;
+
+    public NhanVienController(AccountService accountService, NhanVienService nhanVienService) {
+        this.accountService = accountService;
+        this.nhanVienService = nhanVienService;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<NhanVien> getCurrentNhanVien(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Loại bỏ "Bearer "
+        NhanVien nhanVien = accountService.getNhanVienFromToken(token);
+        return ResponseEntity.ok(nhanVien);
+    }
     @Autowired
     private NhanVienRepository nhanVienRepository;
 
-    public NhanVienController(NhanVienService nhanVienService) {
-        this.nhanVienService = nhanVienService;
-    }
+
 
     @GetMapping
     public List<NhanVien> getAll() {

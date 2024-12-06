@@ -1,4 +1,6 @@
 package com.tka.virtual_assistant.service;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,13 @@ public class AccountService {
         this.accountRepository = accountRepository;
         this.nhanVienRepository = nhanVienRepository;
         this.jwtUtil = jwtUtil;
+    }
+
+    public NhanVien getNhanVienFromToken(String token) {
+        String username = jwtUtil.extractUsername(token);
+        Account account = accountRepository.findByTenTaiKhoan(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Account not found"));
+        return account.getNhanVien(); // Quan hệ @OneToOne trong entity Account
     }
 
     public Optional<String> addAccount(RegisterDTO registerDTO) {
