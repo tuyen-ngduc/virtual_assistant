@@ -3,6 +3,7 @@ package com.tka.virtual_assistant.controller;
 import java.util.List;
 
 import com.tka.virtual_assistant.dto.request.CreateMeetingDTO;
+import com.tka.virtual_assistant.dto.response.DocumentDTO;
 import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,13 @@ public class MeetingController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/document")
+    public ResponseEntity<List<DocumentDTO>> getDocuments() {
+        // Lấy DTO cuộc họp từ service
+        List<DocumentDTO> documentDTO = meetingService.getAllDocuments();
+        return ResponseEntity.ok(documentDTO);
     }
 
 

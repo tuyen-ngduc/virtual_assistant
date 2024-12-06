@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
@@ -24,7 +25,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
                                                 @Param("startTime") LocalDateTime startTime,
                                                 @Param("endTime") LocalDateTime  endTime);
 
-
+    Optional<Meeting> findById(Long id);
 
 
 }

@@ -3,6 +3,7 @@ package com.tka.virtual_assistant.service;
 import com.tka.virtual_assistant.domain.*;
 import com.tka.virtual_assistant.dto.request.CreateMeetingDTO;
 import com.tka.virtual_assistant.dto.request.NguoiThamGiaDTO;
+import com.tka.virtual_assistant.dto.response.DocumentDTO;
 import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import com.tka.virtual_assistant.enums.Status;
 import com.tka.virtual_assistant.repository.*;
@@ -60,6 +61,22 @@ public class MeetingService {
             dto.setMaGoiNho(meeting.getMaGoiNho());
 //            dto.setFileTranscript(meeting.getFileTranscript());
 //            dto.setNguoiTao(meeting.getTenNhanVien());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    public List<DocumentDTO> getAllDocuments() {
+        // Lấy danh sách tất cả cuộc họp
+        List<Meeting> documents = meetingRepository.findAll();
+
+        // Chuyển đổi từ Meeting sang MeetingDTO
+        return documents.stream().map(meeting -> {
+            DocumentDTO dto = new DocumentDTO();
+            dto.setTenCuocHop(meeting.getTenCuocHop());
+            dto.setPhongBan(meeting.getPhongBan().getTenPhongBan());
+            dto.setMaGoiNho(meeting.getMaGoiNho());
+            dto.setFileTranscript(meeting.getFileTranscript());
+
             return dto;
         }).collect(Collectors.toList());
     }
@@ -165,6 +182,8 @@ public class MeetingService {
 
         return transcriptFilePath.toString();
     }
+
+
 
 }
 
