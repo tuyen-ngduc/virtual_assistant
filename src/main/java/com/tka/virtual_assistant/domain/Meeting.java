@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tka.virtual_assistant.enums.Status;
 import jakarta.persistence.*;
 
@@ -23,7 +24,7 @@ public class Meeting {
     private String maGoiNho;
 
     private String fileTranscript;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "meeting")
     private List<NguoiThamGia> nguoiThamGiaList = new ArrayList<>();
 

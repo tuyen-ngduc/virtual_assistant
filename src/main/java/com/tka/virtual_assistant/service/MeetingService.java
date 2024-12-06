@@ -184,6 +184,15 @@ public class MeetingService {
     }
 
 
+    public List<Long> getMeetingIdsForCurrentNhanVien(String username) {
+        // Lấy NhanVien dựa trên username
+        NhanVien nhanVien = nhanVienRepository.findByAccount_TenTaiKhoan(username)
+                .orElseThrow(() -> new RuntimeException("NhanVien không tồn tại!"));
+
+        // Truy vấn danh sách ID Meeting của NhanVien
+        return nguoiThamGiaRepository.findMeetingIdsByNhanVienId(nhanVien.getId());
+    }
+
 
 }
 

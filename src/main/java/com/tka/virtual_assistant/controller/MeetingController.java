@@ -2,11 +2,15 @@ package com.tka.virtual_assistant.controller;
 
 import java.util.List;
 
+import com.tka.virtual_assistant.domain.Meeting;
+import com.tka.virtual_assistant.domain.NhanVien;
 import com.tka.virtual_assistant.dto.request.CreateMeetingDTO;
 import com.tka.virtual_assistant.dto.response.DocumentDTO;
 import com.tka.virtual_assistant.dto.response.MeetingDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.tka.virtual_assistant.service.MeetingService;
@@ -44,6 +48,16 @@ public class MeetingController {
         List<MeetingDTO> meetings = meetingService.getAllMeetings();
         return ResponseEntity.ok(meetings);
     }
+
+    @GetMapping("/my-meetings")
+    public ResponseEntity<?> getMyMeetings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        List<Long> meetingIds = meetingService.getMeetingIdsForCurrentNhanVien(username);
+        return ResponseEntity.ok(meetingIds);
+    }
+
 //    @PutMapping("/start/{id}")
 //    public ResponseEntity<String> startMeeting(@PathVariable Long id) {
 //        String message = meetingService.startMeeting(id);

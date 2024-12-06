@@ -16,6 +16,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
         @Query("SELECT new com.tka.virtual_assistant.dto.response.NhanVienDTO(n.maNhanVien, n.tenNhanVien, p.maPhongBan) " +
                 "FROM NhanVien n JOIN n.phongBan p")
         List<NhanVienDTO> findAllNhanVienSummary();
+
+    Optional<NhanVien> findByAccount_TenTaiKhoan(String username);
+
     }
 
 

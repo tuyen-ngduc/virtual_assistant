@@ -1,5 +1,6 @@
 package com.tka.virtual_assistant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,13 +16,13 @@ public class PhongBan {
 
     private String tenPhongBan;
     private String ghiChu;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "phongBan")
     private List<BoMon> boMonList;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "phongBan")
     private List<NhanVien> nhanVienList;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "phongBan")
     private List<Meeting> meetingList;
 
